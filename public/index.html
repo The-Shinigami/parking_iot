@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+
+    <style>
+        #sample {
+            background-color: red;
+            width: 300px;
+            height: 300px;
+        }
+
+        .link {
+            font-weight: bolder;
+            background-color: rgb(162, 226, 226);
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            background-color: rgb(220, 250, 250);
+        }
+
+        .sublink {
+            font-weight: bolder;
+            background-color: rgb(204, 219, 219);
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .sublink:hover {
+            background-color: rgb(148, 241, 241);
+        }
+
+        .bg-lightBleu {
+            background-color: rgb(162, 226, 226);
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- <div id="sample"></div> -->
+
+
+    <div class="container p-0 m-0">
+        <div class="row p-0 m-0" style="width:100vw;">
+            <dov class="col-3 pt-5 px-5  m-0 shadow-lg">
+                <div class="rounded-3 bg-white shadow-lg" style="height:90vh;border-radius: 20px;">
+                    <div class="p-5">
+                        <div class="p-2  link">Accueil</div>
+                        <div class="p-2 mt-1 link">Tanger</div>
+                        <div class="px-2 sublink d-none">Boukhalaf</div>
+                        <div class="px-2 sublink d-none">Drisiya</div>
+                        <div class="p-2 mt-1 link">Rabat</div>
+                        <div class="p-2 mt-1 link">Casablanca</div>
+                        
+                    </div>
+                </div>
+            </dov>
+            <dov class="col p-0 m-0">
+                <div class="bg-lightBleu p-0 m-0 " style="height:100vh;">
+                    <div class="link_1  d-none">
+                        <h1 class="pt-5 text-center">Parking Boukhalaf</h1>
+                        <div class="d-flex pt-4">
+                            <iframe class="m-auto"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12954.51523992733!2d-5.899281173096188!3d35.735346400684506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0b87d1a8dbd113%3A0xcb4095fba3c9b6b4!2sBoukhalef%2C%20Tanger!5e0!3m2!1sfr!2sma!4v1644759148498!5m2!1sfr!2sma"
+                                width="600" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                        <div class="px-5 pt-5">
+                            <h5>nombre de place : 3</h5>
+                            <h5 id="nb">nombre de place vide: 2</h5>
+                        </div>
+                        <div class="p-5">
+                            <div class="container">
+                                <div class="row justify-content-between">
+                                    <div id="place1" class="col-3 p-3 bg-danger rounded-3"><strong>place 1</strong></div>
+                                    <div class="col-3 p-3 bg-success rounded-3"><strong>place 2</strong></div>
+                                    <div class="col-3 p-3 bg-success rounded-3"><strong>place 3</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex link_2">
+                        <div class="m-auto">
+                            <h1 class="pt-5 text-center">Bienvenue</h1>
+                            <h1>au gestionnaire de stationnement</h1>
+                            <div>
+                               Choisissez Votre parking pour avoir des informations sur les places libres.
+                            </div>
+                            <div class="pt-5">
+                                <img class="rounded-3" src="./images/th.jpg" alt="parking" style="width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </dov>
+        </div>
+
+    </div>
+    <script>
+         var socket = io();
+
+        socket.on('data', function(data) {          
+            console.log(data);
+            if(data == "full"){
+               document.getElementById("place1").classList.remove('bg-success');
+               document.getElementById("place1").classList.add('bg-danger');
+               document.getElementById("nb").innerHTML = "nombre de place vide: 2";
+            }
+            else{
+               document.getElementById("place1").classList.remove('bg-danger');
+               document.getElementById("place1").classList.add('bg-success');
+               document.getElementById("nb").innerHTML = "nombre de place vide: 3";
+            }
+
+        });
+    </script>
+    <script>
+        var link = document.getElementsByClassName("link");
+        var sublink = document.getElementsByClassName("sublink");
+        var bienvenue = document.getElementsByClassName("link_2")[0];
+        var boukhalaf = document.getElementsByClassName("link_1")[0];
+        link[1].addEventListener('click', function (event) {
+            sublink[0].classList.toggle("d-none");
+            sublink[1].classList.toggle("d-none");
+        });
+         sublink[0].addEventListener('click', function (event) {
+             bienvenue.classList.add('d-none');
+             boukhalaf.classList.remove('d-none');
+        });
+        link[0].addEventListener('click', function (event) {
+           bienvenue.classList.remove('d-none');
+             boukhalaf.classList.add('d-none');
+        });
+    </script>
+</body>
+
+</html>
