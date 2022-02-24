@@ -46,9 +46,6 @@ io.on('connection', function(socket) {
     
 });
 
-
-
-
 parser.on('data', function(data) {
     
     console.log('Received data from port: ' + data);
