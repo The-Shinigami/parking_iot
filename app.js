@@ -1,7 +1,3 @@
-/* var http = require('http');
-var fs = require('fs');
-var index = fs.readFileSync( 'index.html'); */
-
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
@@ -12,7 +8,7 @@ const parser = new parsers.Readline({
      delimiter: '\r\n'
 });
 
-var port = new SerialPort('COM5',{ 
+var port = new SerialPort('/dev/ttyACM0',{ 
     baudRate: 9600,
     dataBits: 8,
     parity: 'none',
@@ -34,7 +30,6 @@ var app = http.createServer(function(req, res){
         var fileStream = fs.createReadStream(imagePath);
         res.writeHead(200, { "Content-Type": "image/png" });
         console.log(imagePath);
-        alert("hhhh")
         fileStream.pipe(res);
     }else{
         res.writeHead(404, {"Content-Type": "text/html"});
